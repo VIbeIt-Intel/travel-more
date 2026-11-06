@@ -39,3 +39,5 @@ next-env.d.ts
 .vercel
 .github-pages-stash
 tmp-photos
+
+tmp-photosus*
