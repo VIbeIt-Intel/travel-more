@@ -6,6 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "build:github-pages": "node scripts/github-pages.mjs build",
+    "deploy:github-pages": "npm run build:github-pages && npx gh-pages -d out --dotfiles -m \"Deploy public site\"",
     "start": "next start",
     "lint": "next lint"
   },
