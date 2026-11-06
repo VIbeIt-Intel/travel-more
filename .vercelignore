@@ -1,0 +1,10 @@
+node_modules
+.next
+out
+.git
+tmp-photos
+.env
+.env*.local
+*.pem
+data/enquiries.json
+data/office.json

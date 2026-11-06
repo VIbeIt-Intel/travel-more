@@ -1,0 +1,55 @@
+[
+  {
+    "id": "8f3a1c2e-6b47-4d19-9a55-1c0e7b2d4a10",
+    "destination": "Mauritius",
+    "name": "Mauritius 7 night resort",
+    "badge": "Most popular",
+    "price": "From R 33,500",
+    "priceNote": "per person sharing, 7 nights",
+    "flights": "Return flights from Johannesburg included",
+    "included": [
+      "Comfort resort on the lagoon",
+      "Airport and resort transfers",
+      "Daily breakfast"
+    ],
+    "image": "/images/destinations/mauritius-lagoon.jpg",
+    "alt": "Le Morne Brabant seen from the lagoon in Mauritius",
+    "video": "/videos/specials/mauritius-web.mp4"
+  },
+  {
+    "id": "b1e64d90-2c58-4f73-8e21-6a9d0c3f5b22",
+    "destination": "Zanzibar",
+    "name": "Zanzibar week on the north coast",
+    "badge": "Island",
+    "price": "From R 28,000",
+    "priceNote": "per person sharing, 7 nights",
+    "flights": "Return flights from Johannesburg included",
+    "included": [
+      "Beach stay near Nungwi",
+      "Airport and resort transfers",
+      "Stone Town and a dhow sunset",
+      "Daily breakfast"
+    ],
+    "image": "/images/destinations/zanzibar-shore.jpg",
+    "alt": "Shallow turquoise water off the east coast of Zanzibar",
+    "video": "/videos/specials/zanzibar-web.mp4"
+  },
+  {
+    "id": "c7d20a44-91f6-4b08-ae63-4e8f1a6c7d33",
+    "destination": "Maldives",
+    "name": "Maldives lagoon stay",
+    "badge": "Honeymoon",
+    "price": "From R 56,500",
+    "priceNote": "per person sharing, 7 nights",
+    "flights": "Return flights from Johannesburg included",
+    "included": [
+      "Beach or overwater villa",
+      "Speedboat or seaplane to the island",
+      "House reef and a sandbank day",
+      "Daily breakfast"
+    ],
+    "image": "/images/destinations/maldives-jetty.jpg",
+    "alt": "A wooden jetty leading to overwater villas in the Maldives",
+    "video": "/videos/specials/maldives-jetty-web.mp4"
+  }
+]

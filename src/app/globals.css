@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy-950: #0a1628;
+  --color-navy-900: #0f2137;
+  --color-navy-800: #152a45;
+  --color-teal-700: #0d4f4f;
+  --color-teal-600: #126969;
+  --color-teal-500: #1a8585;
+  --color-sand-100: #f7f3ed;
+  --color-sand-200: #ebe4d8;
+  --color-sand-300: #d9cdb8;
+  --color-gold-400: #c9a962;
+  --color-gold-500: #b8924a;
+  --color-gold-600: #9a7838;
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-dm-sans), "DM Sans", system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-sand-100);
+  color: var(--color-navy-900);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background-color: color-mix(in srgb, var(--color-gold-400) 35%, transparent);
+}
+
+@keyframes explore-pulse {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  12.5% { transform: translate3d(0, 0, 0) scale(1.002); }
+  25% { transform: translate3d(0, 0, 0) scale(1.008); }
+  37.5% { transform: translate3d(0, 0, 0) scale(1.014); }
+  50% { transform: translate3d(0, 0, 0) scale(1.016); }
+  62.5% { transform: translate3d(0, 0, 0) scale(1.014); }
+  75% { transform: translate3d(0, 0, 0) scale(1.008); }
+  87.5% { transform: translate3d(0, 0, 0) scale(1.002); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@keyframes explore-fill {
+  0%,
+  100% { opacity: 0.06; }
+  50% { opacity: 0.22; }
+}
+
+.explore-pulse {
+  position: relative;
+  isolation: isolate;
+  animation: explore-pulse 8s linear infinite;
+  transform-origin: center;
+  backface-visibility: hidden;
+}
+
+.explore-pulse::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: #fff;
+  opacity: 0.06;
+  animation: explore-fill 8s linear infinite;
+  animation-delay: inherit;
+  pointer-events: none;
+}
+
+.explore-pulse:hover {
+  animation: none;
+  transform: none;
+  transition: color 0.5s ease, background-color 0.5s ease;
+}
+
+.explore-pulse:hover::before {
+  animation: none;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+@keyframes special-drift {
+  0%,
+  100% {
+    transform: scale(1.06) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.14) translate3d(-2%, -1%, 0);
+  }
+}
+
+.special-drift {
+  animation: special-drift 16s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .explore-pulse,
+  .explore-pulse::before,
+  .special-drift {
+    animation: none;
+  }
+}
