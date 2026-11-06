@@ -97,7 +97,7 @@ export function DestinationGuide({ guide }: { guide: Guide }) {
                       alt={place.alt}
                       fill
                       quality={90}
-                      className="object-cover"
+                      className={`object-cover ${place.objectPosition ?? "object-center"}`}
                       sizes="(max-width: 768px) 100vw, 560px"
                     />
                   </div>
@@ -128,16 +128,23 @@ export function DestinationGuide({ guide }: { guide: Guide }) {
             </div>
           </div>
 
-          <div className="mx-auto mt-16 max-w-6xl px-5 lg:px-8">
-            <h2 className="font-display text-2xl font-semibold text-navy-900">Other guides</h2>
-            <div className="mt-5 flex flex-wrap gap-3">
+          <div className="mx-auto mt-20 max-w-6xl border-t border-[#e4d8c8] px-5 pt-12 lg:px-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#1a7d76]">Continue</p>
+            <h2 className="mt-3 font-display text-4xl font-semibold text-navy-900">Other guides</h2>
+            <div className="mt-6 flex flex-wrap gap-3">
               {others.map((item) => (
                 <Link
                   key={item.slug}
                   href={`/destinations/${item.slug}`}
-                  className="rounded-full border border-navy-900/15 bg-white px-4 py-2 text-sm font-medium text-navy-900 transition hover:border-[#2a9d94] hover:text-[#1a6d68]"
+                  className="group inline-flex items-center gap-3 rounded-full border border-[#e4d8c8] bg-white px-5 py-3 font-display text-xl tracking-wide text-navy-900 shadow-[0_12px_28px_-20px_rgba(15,33,55,0.65)] transition duration-300 hover:-translate-y-0.5 hover:border-[#c9a962] hover:shadow-[0_16px_32px_-18px_rgba(15,33,55,0.45)]"
                 >
                   {item.name}
+                  <span
+                    aria-hidden
+                    className="text-sm text-[#1a7d76] transition duration-300 group-hover:translate-x-0.5"
+                  >
+                    →
+                  </span>
                 </Link>
               ))}
             </div>

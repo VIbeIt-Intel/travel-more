@@ -1,74 +1,50 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { IMAGES } from "@/lib/constants";
 import { SectionHeading } from "./SectionHeading";
 
 export function About() {
   return (
     <>
       <section id="about" className="scroll-mt-28 pb-20 pt-8 md:pb-28 md:pt-12">
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-2xl shadow-navy-950/15 lg:aspect-[5/6]"
+        <div className="mx-auto max-w-3xl px-5 lg:px-8">
+          <SectionHeading
+            eyebrow="About us"
+            title="Travel, designed around the moments that matter"
+          />
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="space-y-4 text-base leading-relaxed text-navy-800/80"
+          >
+            <p>
+              Welcome to Travel More, where travel is thoughtfully designed around the moments that
+              matter most.
+            </p>
+            <p>
+              From island escapes and exotic ocean hideaways to inspiring European journeys, local
+              favourites, and unforgettable global adventures, we curate holidays that feel seamless,
+              personal, and deeply rewarding. Whether you&apos;re planning quality time with family, a
+              refined golf escape, or a dream trip, every detail is handled with care and intention.
+            </p>
+            <p>No matter the destination, we turn travel into something truly special.</p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+          >
+            <Link
+              href="/#contact"
+              className="mt-8 inline-flex rounded-full bg-[#2a9d94] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-[#1f857d]"
             >
-              <Image
-                src={IMAGES.about}
-                alt="Cape Town and Table Bay seen from Table Mountain"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-              <div className="absolute inset-0 ring-1 ring-inset ring-navy-950/10" />
-            </motion.div>
-
-            <div>
-              <SectionHeading
-                centered={false}
-                eyebrow="About us"
-                title="Travel, designed around the moments that matter"
-              />
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                className="space-y-4 text-base leading-relaxed text-navy-800/80"
-              >
-                <p>
-                  Welcome to Travel More, where travel is thoughtfully designed around the moments
-                  that matter most.
-                </p>
-                <p>
-                  From island escapes and exotic ocean hideaways to inspiring European
-                  journeys, local favourites, and unforgettable global adventures, we curate
-                  holidays that feel seamless, personal, and deeply rewarding. Whether you&apos;re
-                  planning quality time with family, a refined golf escape, or a dream
-                  trip, every detail is handled with care and intention.
-                </p>
-                <p>No matter the destination, we turn travel into something truly special.</p>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-              >
-                <Link
-                  href="/#contact"
-                  className="mt-8 inline-flex rounded-full bg-[#2a9d94] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-[#1f857d]"
-                >
-                  Let&apos;s plan something exceptional
-                </Link>
-              </motion.div>
-            </div>
-          </div>
+              Let&apos;s plan something exceptional
+            </Link>
+          </motion.div>
         </div>
       </section>
 

@@ -176,7 +176,7 @@ export const DESTINATIONS: Record<DestinationId, DestinationData> = {
     region: "Indian Ocean",
     tagline: "Stone Town lanes, a spice farm, and a dhow at the end of the day.",
     images: [
-      { src: "/images/destinations/zanzibar-dhow.jpg", alt: "A traditional dhow with a white sail on clear water in Zanzibar" },
+      { src: "/images/destinations/zanzibar-beach.jpg", alt: "White sand, palm trees and turquoise water on the coast of Zanzibar" },
       { src: "/images/places/stone-town.jpg", alt: "A narrow lane in Stone Town, Zanzibar" },
       { src: "/images/places/dhow-sunset-u.jpg", alt: "A dhow at sunset off Zanzibar" },
     ],

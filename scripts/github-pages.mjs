@@ -50,7 +50,14 @@ if (cmd === "prep") {
   prep();
 } else if (cmd === "restore") {
   restore();
-} else if (cmd === "build") {
+} else if (cmd === "build" || cmd === "build-domain") {
+  const rootDomain = cmd === "build-domain";
+  const base = rootDomain ? "" : "/travel-more";
+  if (rootDomain) {
+    fs.writeFileSync(path.join(root, "public", "CNAME"), "travelmorebl.com\n", "utf8");
+  } else if (fs.existsSync(path.join(root, "public", "CNAME"))) {
+    fs.unlinkSync(path.join(root, "public", "CNAME"));
+  }
   try {
     prep();
     const result = spawnSync("npx", ["next", "build"], {
@@ -60,8 +67,9 @@ if (cmd === "prep") {
       env: {
         ...process.env,
         GITHUB_PAGES: "true",
+        GITHUB_PAGES_ROOT: rootDomain ? "true" : "false",
         NEXT_PUBLIC_GITHUB_PAGES: "true",
-        NEXT_PUBLIC_BASE_PATH: "/travel-more",
+        NEXT_PUBLIC_BASE_PATH: base,
       },
     });
     if (result.status !== 0) process.exit(result.status ?? 1);

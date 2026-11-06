@@ -9,7 +9,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 export function Hero() {
   return (
     <section
-      className="relative isolate flex min-h-[100svh] items-center justify-center overflow-hidden bg-white"
+      className="relative isolate flex min-h-[100svh] items-center justify-center overflow-hidden bg-[#b7c9d4]"
       aria-label="Introduction"
     >
       <Image

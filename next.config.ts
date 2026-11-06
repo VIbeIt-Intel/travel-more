@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const githubPages = process.env.GITHUB_PAGES === "true";
-const basePath = githubPages ? "/travel-more" : "";
+/** Subpath build for vibeit-intel.github.io/travel-more; root build for a custom domain. */
+const basePath =
+  githubPages && process.env.GITHUB_PAGES_ROOT !== "true" ? "/travel-more" : githubPages ? "" : "";
 const dev = process.env.NODE_ENV !== "production";
 
 const csp = [
@@ -33,7 +35,7 @@ const nextConfig: NextConfig = {
     ? {
         output: "export",
         basePath,
-        assetPrefix: `${basePath}/`,
+        ...(basePath ? { assetPrefix: `${basePath}/` } : {}),
         trailingSlash: true,
       }
     : {}),

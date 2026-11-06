@@ -12,6 +12,14 @@ export const SITE = {
   facebook: "https://www.facebook.com/travelmoreBusinessLeisure",
 } as const;
 
+export const BUILDER = {
+  name: "VibeIt",
+  tagline: "the vibe, the website",
+  cta: "Want a site like this?",
+  logo: "/vibeit-logo.png",
+  url: "https://vibeit-intel.net/",
+} as const;
+
 export type NavChild = { href: string; label: string };
 
 export type NavItem = {
@@ -61,7 +69,6 @@ export const IMAGES = {
     "https://images.unsplash.com/photo-1540202404-a7f290332e47?q=80&w=2400&auto=format&fit=crop",
   mauritius: "/images/destinations/mauritius-lagoon.jpg",
   southAfrica: "/images/destinations/south-africa.jpg",
-  about: "/images/about-capetown.jpg",
   headerShore:
     "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1920&auto=format&fit=crop",
 } as const;

@@ -65,10 +65,24 @@ export function TripEnquiry({ destination }: { destination: string }) {
       return;
     }
     if (isStaticPublicSite()) {
-      setError(
-        `For a quote, WhatsApp us on ${SITE.phone} or email ${SITE.emails[0]}. We will reply personally.`,
-      );
-      setStatus("error");
+      const body = [
+        `Destination: ${destination}`,
+        `When: ${month || "Not sure"} ${year}${flexible ? " (flexible)" : ""}`,
+        `Travellers: ${adults} adults, ${children} children`,
+        nights ? `Length: ${nights}` : "",
+        trip ? `Trip: ${trip}` : "",
+        `Name: ${name.trim()}`,
+        `Email: ${email.trim()}`,
+        phone.trim() ? `Phone: ${phone.trim()}` : "",
+        notes.trim() ? "" : "",
+        notes.trim(),
+      ]
+        .filter((line) => line !== "")
+        .join("\n");
+      window.location.href = `mailto:${SITE.emails[0]}?subject=${encodeURIComponent(
+        `${destination} quote for ${name.trim()}`,
+      )}&body=${encodeURIComponent(body)}`;
+      setStatus("sent");
       return;
     }
     setStatus("sending");
@@ -110,11 +124,15 @@ export function TripEnquiry({ destination }: { destination: string }) {
     return (
       <div className="bg-white px-6 py-10 shadow-[0_18px_40px_rgba(10,22,40,0.08)] md:px-10 md:py-12">
         <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-[#1a7d76]">
-          Request received
+          {isStaticPublicSite() ? "Ready to send" : "Request received"}
         </p>
-        <h2 className="mt-3 font-display text-4xl font-semibold text-navy-900">We have your {destination} trip</h2>
+        <h2 className="mt-3 font-display text-4xl font-semibold text-navy-900">
+          {isStaticPublicSite() ? `Email your ${destination} trip` : `We have your ${destination} trip`}
+        </h2>
         <p className="mt-4 text-base leading-relaxed text-navy-800/75">
-          Travel More will come back with a route and a quote, usually within one business day.
+          {isStaticPublicSite()
+            ? `Your email app should open with this request to ${SITE.emails[0]}. If it does not, WhatsApp us on ${SITE.phone}.`
+            : "Travel More will come back with a route and a quote, usually within one business day."}
         </p>
       </div>
     );

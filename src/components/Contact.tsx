@@ -20,8 +20,28 @@ export function Contact() {
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setStatus("submitting");
-    window.setTimeout(() => setStatus("success"), 800);
+    const form = new FormData(e.currentTarget);
+    const first = String(form.get("firstName") ?? "").trim();
+    const last = String(form.get("lastName") ?? "").trim();
+    const email = String(form.get("email") ?? "").trim();
+    const phone = String(form.get("phone") ?? "").trim();
+    const tripType = String(form.get("tripType") ?? "").trim();
+    const message = String(form.get("message") ?? "").trim();
+    const body = [
+      `Name: ${first} ${last}`.trim(),
+      `Email: ${email}`,
+      phone ? `Phone: ${phone}` : "",
+      tripType ? `Trip: ${tripType}` : "",
+      "",
+      message,
+    ]
+      .filter((line) => line !== "")
+      .join("\n");
+    const href = `mailto:${SITE.emails[0]}?subject=${encodeURIComponent(
+      `Travel More enquiry from ${first || "website"}`,
+    )}&body=${encodeURIComponent(body)}`;
+    setStatus("success");
+    window.location.href = href;
   }
 
   return (
@@ -125,11 +145,9 @@ export function Contact() {
                 />
               </div>
 
-              <fieldset className="mt-8">
-                <legend className="text-xs font-semibold uppercase tracking-[0.16em] text-[#146870]">
-                  Trip
-                </legend>
-                <div className="mt-3 flex flex-wrap gap-2">
+              <fieldset className="mt-10">
+                <legend className="font-display text-2xl text-navy-900">The trip</legend>
+                <div className="mt-4 flex flex-wrap gap-2.5">
                   {TRIPS.map((item) => (
                     <label key={item.value} className="cursor-pointer">
                       <input
@@ -141,7 +159,7 @@ export function Contact() {
                         onChange={() => setTrip(item.value)}
                         className="peer sr-only"
                       />
-                      <span className="inline-block border border-[#1a9aab]/30 px-4 py-2 text-sm text-navy-900 transition peer-checked:border-[#1a9aab] peer-checked:bg-[#1a9aab] peer-checked:text-white hover:border-[#1a9aab]">
+                      <span className="inline-flex items-center rounded-full border border-[#e4d8c8] bg-[#fffcf8] px-5 py-2.5 font-display text-lg tracking-wide text-navy-900 shadow-[0_10px_24px_-18px_rgba(15,33,55,0.7)] transition duration-300 hover:border-[#c9a962] peer-checked:border-navy-900 peer-checked:bg-navy-900 peer-checked:text-[#f6efe4] peer-focus-visible:ring-2 peer-focus-visible:ring-[#c9a962]">
                         {item.label}
                       </span>
                     </label>
@@ -179,8 +197,8 @@ export function Contact() {
               </button>
               {status === "success" && (
                 <p className="mt-4 text-sm leading-relaxed text-navy-800/70" role="status">
-                  We have your note on this page. Email from the form is not connected yet, so call or
-                  WhatsApp if it is urgent.
+                  Your email app should open with this note to {SITE.emails[0]}. If it does not, WhatsApp
+                  us on {SITE.phone} and we will reply personally.
                 </p>
               )}
             </motion.form>

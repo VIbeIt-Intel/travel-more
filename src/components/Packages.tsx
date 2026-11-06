@@ -4,29 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { staticAsset } from "@/lib/publicSite";
 import type { Special } from "@/lib/specials";
+import specialsFile from "../../data/specials.json";
 import { SectionHeading } from "./SectionHeading";
 
-export function Packages() {
-  const [specials, setSpecials] = useState<Special[] | null>(null);
+const specials = specialsFile as Special[];
 
-  useEffect(() => {
-    let active = true;
-    fetch(staticAsset("/site-data/specials.json"))
-      .then((response) => (response.ok ? response.json() : null))
-      .then((data: Special[] | { specials?: Special[] } | null) => {
-        if (!active) return;
-        if (Array.isArray(data)) setSpecials(data);
-        else setSpecials(data?.specials ?? []);
-      })
-      .catch(() => {
-        if (active) setSpecials([]);
-      });
-    return () => {
-      active = false;
-    };
-  }, []);
+export function Packages() {
 
   return (
     <section id="specials" className="scroll-mt-28 py-20 md:py-28">
@@ -37,9 +21,7 @@ export function Packages() {
           description="Offers Travel More is holding right now. The price, the flights and what is included are on the card."
         />
 
-        {specials === null ? (
-          <p className="text-center text-sm text-navy-800/60">Loading specials.</p>
-        ) : specials.length === 0 ? (
+        {specials.length === 0 ? (
           <div className="mx-auto max-w-2xl border border-sand-300 bg-sand-100 px-8 py-12 text-center">
             <p className="font-display text-3xl text-navy-900">Nothing is posted right now.</p>
             <p className="mt-3 text-sm leading-relaxed text-navy-800/70">

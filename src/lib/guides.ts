@@ -1,6 +1,12 @@
 export type GuideFact = { label: string; detail: string };
 
-export type GuidePlace = { name: string; detail: string; image: string; alt: string };
+export type GuidePlace = {
+  name: string;
+  detail: string;
+  image: string;
+  alt: string;
+  objectPosition?: string;
+};
 
 export type Guide = {
   slug: string;
@@ -108,9 +114,9 @@ export const GUIDES: Guide[] = [
   {
     slug: "zanzibar",
     name: "Zanzibar",
-    image: "/images/destinations/zanzibar-dhow.jpg",
-    alt: "A traditional dhow with a white sail on clear water in Zanzibar",
-    objectPosition: "object-[center_42%]",
+    image: "/images/destinations/zanzibar-beach.jpg",
+    alt: "White sand, palm trees and turquoise water on the coast of Zanzibar",
+    objectPosition: "object-center",
     lead: "Stone Town first, then a beach where the dhows sit in the shallows. Slower and less polished than Mauritius, which is the reason most people choose it.",
     feel: [
       "The holiday is two moods. Stone Town is a coral-stone city of narrow lanes, carved doors, and a waterfront that fills at sunset. The night food market is the meal you came for. The beaches, especially on the north coast, are a different island: pale sand, boats, and days that do not run to a schedule.",
@@ -182,7 +188,8 @@ export const GUIDES: Guide[] = [
         detail:
           "Red colobus monkeys, and a natural stop on the drive between Stone Town and the coast.",
         image: "/images/places/jozani-u.jpg",
-        alt: "A Zanzibar red colobus monkey in Jozani forest",
+        alt: "A Zanzibar red colobus monkey with its young in Jozani forest",
+        objectPosition: "object-[center_24%]",
       },
       {
         name: "A dhow at sunset",

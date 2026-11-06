@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "build:github-pages": "node scripts/github-pages.mjs build",
+    "build:github-pages-domain": "node scripts/github-pages.mjs build-domain",
     "deploy:github-pages": "npm run build:github-pages && npx gh-pages -d out --dotfiles -m \"Deploy public site\"",
+    "deploy:domain": "npm run build:github-pages-domain && npx gh-pages -d out --dotfiles -m \"Deploy for travelmorebl.com\"",
     "start": "next start",
     "lint": "next lint"
   },

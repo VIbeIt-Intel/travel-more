@@ -6,9 +6,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { NAV, SITE, type NavItem } from "@/lib/constants";
 
 const linkClass = (overHero: boolean) =>
-  `relative text-[13px] font-medium tracking-[0.01em] leading-tight transition-colors duration-300 after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:transition-all after:duration-300 hover:after:w-full xl:text-sm ${
+  `relative text-[13px] font-semibold tracking-[0.01em] leading-tight transition-colors duration-300 after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:transition-all after:duration-300 hover:after:w-full xl:text-sm ${
     overHero
-      ? "text-white/95 hover:text-white after:bg-[#7ee0d2]"
+      ? "text-navy-950/90 hover:text-navy-950 after:bg-[#1a7d76] [text-shadow:0_0_10px_rgba(255,255,255,0.85),0_1px_1px_rgba(255,255,255,0.9)]"
       : "text-white/95 hover:text-white after:bg-white"
   }`;
 
@@ -41,7 +41,7 @@ export function Header({ solid = false }: { solid?: boolean }) {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         overHero
-          ? "bg-transparent"
+          ? "bg-gradient-to-b from-white/70 via-white/35 to-transparent backdrop-blur-[2px]"
           : "border-b border-white/15 bg-[#1a9aab]/95 shadow-[0_8px_28px_rgba(12,70,80,0.22)] backdrop-blur-md"
       }`}
     >
@@ -55,7 +55,7 @@ export function Header({ solid = false }: { solid?: boolean }) {
           <video
             className={`rounded-full object-cover shadow-lg ring-2 transition-all duration-300 ${
               overHero
-                ? "h-14 w-14 ring-white/70 xl:h-[68px] xl:w-[68px]"
+                ? "h-14 w-14 ring-navy-950/15 xl:h-[68px] xl:w-[68px]"
                 : "h-11 w-11 ring-white/70 xl:h-12 xl:w-12"
             }`}
             src="/logo-loop.mp4"
@@ -64,18 +64,20 @@ export function Header({ solid = false }: { solid?: boolean }) {
             muted
             loop
             playsInline
-            preload="auto"
+            preload="metadata"
             aria-hidden
           />
           <div className="hidden leading-tight xl:block">
             <span
-              className="font-display text-lg font-semibold text-white transition-colors"
+              className={`font-display text-lg font-semibold transition-colors ${
+                overHero ? "text-navy-950" : "text-white"
+              }`}
             >
               {SITE.name}
             </span>
             <span
               className={`block text-[0.65rem] font-semibold uppercase tracking-[0.18em] transition-colors ${
-                overHero ? "text-white/85" : "text-white/80"
+                overHero ? "text-navy-900/80" : "text-white/80"
               }`}
             >
               {SITE.subtitle}

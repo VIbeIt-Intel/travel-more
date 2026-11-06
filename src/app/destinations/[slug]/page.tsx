@@ -15,9 +15,24 @@ export async function generateMetadata({
   const { slug } = await params;
   const guide = getGuide(slug);
   if (!guide) return {};
+  const title = `${guide.name} travel guide`;
+  const url = `https://travelmorebl.com/destinations/${guide.slug}`;
   return {
-    title: `${guide.name} travel guide`,
+    title,
     description: guide.lead,
+    openGraph: {
+      title,
+      description: guide.lead,
+      url,
+      type: "article",
+      images: [{ url: guide.image, width: 1200, height: 630, alt: guide.alt }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: guide.lead,
+      images: [guide.image],
+    },
   };
 }
 
