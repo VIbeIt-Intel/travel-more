@@ -15,7 +15,7 @@ const svg = `
   </defs>
   <rect width="${W}" height="${H}" fill="url(#g)"/>
   <text x="88" y="300" font-family="Georgia, 'Times New Roman', serif" font-size="108" font-weight="700" fill="#ffffff">Travel<tspan fill="#3ecfb8" font-style="italic">MORE</tspan></text>
-  <text x="94" y="362" font-family="Arial, sans-serif" font-size="29" letter-spacing="7" fill="#ffffff">BUSINESS &amp; LEISURE  &#8226;  SOUTH AFRICA</text>
+  <text x="94" y="362" font-family="Arial, sans-serif" font-size="29" letter-spacing="7" fill="#ffffff">BUSINESS &amp; LEISURE</text>
   <text x="94" y="566" font-family="Georgia, serif" font-size="34" fill="#f3ece1">Your Next Chapter Starts with TravelMORE.</text>
 </svg>`;
 

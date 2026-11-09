@@ -43,7 +43,7 @@ export function Hero() {
           transition={{ duration: 1, delay: 0.4, ease }}
           className="mt-6 text-xs font-semibold uppercase tracking-[0.32em] text-white [text-shadow:0_1px_2px_rgba(12,24,48,0.55),0_6px_16px_rgba(12,24,48,0.45)] md:text-sm"
         >
-          Business &amp; Leisure <span className="mx-2 text-white">•</span> South Africa
+          Business &amp; Leisure
         </motion.p>
 
         <motion.div
