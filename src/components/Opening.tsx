@@ -3,7 +3,7 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 
 const SEEN = "tm-opened";
-const HOLD_MS = 2200;
+const HOLD_MS = 4000;
 const FADE_MS = 700;
 
 type Phase = "play" | "leave" | "done";
@@ -58,9 +58,9 @@ export function Opening() {
       role="presentation"
     >
       <video
-        className="h-48 w-48 rounded-full object-cover shadow-[0_18px_50px_rgba(15,33,55,0.18)] sm:h-64 sm:w-64"
-        src="/logo-loop.mp4"
-        poster="/logo.webp"
+        className="h-[100vmin] w-[100vmin] max-h-[100svh] max-w-[100vw] rounded-full object-cover"
+        src="/logo-open.mp4"
+        poster="/logo-open.jpg"
         autoPlay
         muted
         playsInline
