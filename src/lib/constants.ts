@@ -3,7 +3,7 @@ export const SITE = {
   subtitle: "Business & Leisure",
   tagline: "Your Next Chapter Starts with TravelMORE.",
   location: "Gauteng, South Africa",
-  emails: ["info@travelmore.co.za", "fransmari@travelmorebl.com"],
+  emails: ["fransmari@travelmorebl.com"],
   phone: "076 481 2699",
   phoneTel: "+27764812699",
   whatsapp: "https://wa.me/27764812699",

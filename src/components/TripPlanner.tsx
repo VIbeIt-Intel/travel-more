@@ -357,7 +357,8 @@ function PriceCard({
   const summary = summariseForEnquiry(answers, itinerary);
   const whatsappHref = `${SITE.whatsapp}?text=${encodeURIComponent(summary)}`;
   const [primaryEmail, ...ccEmails] = SITE.emails;
-  const emailHref = `mailto:${primaryEmail}?cc=${ccEmails.join(",")}&subject=${encodeURIComponent(
+  const cc = ccEmails.length > 0 ? `cc=${ccEmails.join(",")}&` : "";
+  const emailHref = `mailto:${primaryEmail}?${cc}subject=${encodeURIComponent(
     `Trip planner: ${itinerary.destination.name}, ${answers.nights} nights`,
   )}&body=${encodeURIComponent(summary)}`;
 
