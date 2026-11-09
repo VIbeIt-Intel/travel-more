@@ -1,7 +1,7 @@
 export const SITE = {
-  name: "Travel More",
+  name: "TravelMORE",
   subtitle: "Business & Leisure",
-  tagline: "Your Next Chapter Starts with Travel More.",
+  tagline: "Your Next Chapter Starts with TravelMORE.",
   location: "Gauteng, South Africa",
   emails: ["info@travelmore.co.za", "fransmari@travelmorebl.com"],
   phone: "076 481 2699",

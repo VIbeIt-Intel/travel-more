@@ -132,7 +132,7 @@ export function TripEnquiry({ destination }: { destination: string }) {
         <p className="mt-4 text-base leading-relaxed text-navy-800/75">
           {isStaticPublicSite()
             ? `Your email app should open with this request to ${SITE.emails[0]}. If it does not, WhatsApp us on ${SITE.phone}.`
-            : "Travel More will come back with a route and a quote, usually within one business day."}
+            : "TravelMORE will come back with a route and a quote, usually within one business day."}
         </p>
       </div>
     );

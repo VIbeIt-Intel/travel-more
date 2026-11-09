@@ -114,7 +114,7 @@ export function OfficeAuthShell({
           <div className="relative flex h-full flex-col justify-between p-10 text-white">
             <div>
               <p className="text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-sand-100/90">
-                Travel More
+                TravelMORE
               </p>
               <p className="mt-2 font-display text-3xl font-semibold leading-tight">
                 Business &amp; Leisure

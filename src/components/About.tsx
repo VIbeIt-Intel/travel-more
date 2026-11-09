@@ -21,7 +21,7 @@ export function About() {
             className="space-y-4 text-base leading-relaxed text-navy-800/80"
           >
             <p>
-              Welcome to Travel More, where travel is thoughtfully designed around the moments that
+              Welcome to TravelMORE, where travel is thoughtfully designed around the moments that
               matter most.
             </p>
             <p>
@@ -50,7 +50,7 @@ export function About() {
 
       <section id="about-me" className="scroll-mt-28 bg-sand-100 py-20 md:py-28">
         <div className="mx-auto max-w-3xl px-5 lg:px-8">
-          <SectionHeading eyebrow="About me" title="FransMari Grant" description="Founder of Travel More" />
+          <SectionHeading eyebrow="About me" title="FransMari Grant" description="Founder of TravelMORE" />
 
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -59,15 +59,15 @@ export function About() {
             className="space-y-4 text-base leading-relaxed text-navy-800/80"
           >
             <p>
-              I&apos;m FransMari Grant, founder of Travel More, where we create travel experiences
+              I&apos;m FransMari Grant, founder of TravelMORE, where we create travel experiences
               that are seamless, luxurious, and unforgettable. My journey began in 2015 at Flight
               Centre Retail, followed by Flight Centre Independent in 2017, and in 2025 I rebranded
-              as Travel More to focus on bespoke family and golf escapes, and much more. I hold an
+              as TravelMORE to focus on bespoke family and golf escapes, and much more. I hold an
               Honours Degree in Tourism Management, combining professional expertise with a deep
               personal passion for travel.
             </p>
             <p>
-              At Travel More, we believe that every journey should be tailored to the individual. We
+              At TravelMORE, we believe that every journey should be tailored to the individual. We
               invest in travel ourselves to ensure we provide the best advice, value, and insider
               tips, and we partner with the most reputable operators and wholesalers worldwide. Our
               foundation is built on relationships, and we take pride in offering a personal touch
@@ -81,7 +81,7 @@ export function About() {
               expertise, and attention to detail.
             </p>
             <p>
-              With Travel More, your holiday isn&apos;t just a trip. It&apos;s a collection of
+              With TravelMORE, your holiday isn&apos;t just a trip. It&apos;s a collection of
               moments, memories, and experiences designed to last a lifetime.
             </p>
           </motion.div>

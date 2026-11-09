@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   description:
     "Gauteng-based boutique travel agency specialising in bespoke business travel, bleisure itineraries, Mauritius resort packages, corporate retreats, and custom South African & Indian Ocean journeys.",
   keywords: [
-    "Travel More",
+    "TravelMORE",
     "bleisure travel South Africa",
     "Mauritius packages",
     "corporate travel Gauteng",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
         url: `${siteUrl}/og-image.jpg`,
         width: 1200,
         height: 630,
-        alt: "Travel More, Business & Leisure, South Africa",
+        alt: "TravelMORE, Business & Leisure, South Africa",
       },
     ],
   },

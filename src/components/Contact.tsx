@@ -38,7 +38,7 @@ export function Contact() {
       .filter((line) => line !== "")
       .join("\n");
     const href = `mailto:${SITE.emails[0]}?subject=${encodeURIComponent(
-      `Travel More enquiry from ${first || "website"}`,
+      `TravelMORE enquiry from ${first || "website"}`,
     )}&body=${encodeURIComponent(body)}`;
     setStatus("success");
     window.location.href = href;

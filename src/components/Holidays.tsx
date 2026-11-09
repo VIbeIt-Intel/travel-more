@@ -119,7 +119,7 @@ export function Holidays() {
             Type of holidays
           </p>
           <h2 className="font-display text-4xl font-semibold tracking-tight text-navy-900 md:text-5xl lg:text-[3.5rem] lg:leading-[1.12]">
-            Welcome to Travel More, where travel is thoughtfully designed around the moments that
+            Welcome to TravelMORE, where travel is thoughtfully designed around the moments that
             matter most.
           </h2>
           <div className="mx-auto mt-8 max-w-4xl space-y-6 text-base leading-8 text-navy-800/75 md:mt-10 md:text-lg md:leading-9">

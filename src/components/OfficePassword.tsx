@@ -32,7 +32,7 @@ export function PasswordRecovery({ onBack }: { onBack: () => void }) {
   return (
     <OfficeAuthShell
       title="Recover password"
-      lead="We will email a reset link. It only goes to the Travel More inboxes below — not to any address someone types in."
+      lead="We will email a reset link. It only goes to the TravelMORE inboxes below — not to any address someone types in."
     >
       <form onSubmit={send}>
         <ul className="space-y-2 rounded-xl bg-sand-100/80 px-4 py-3 text-sm font-medium text-navy-900">

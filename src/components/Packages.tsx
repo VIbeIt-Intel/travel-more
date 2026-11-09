@@ -34,7 +34,7 @@ export function Packages() {
         <SectionHeading
           eyebrow="Specials"
           title="Curated starting points, fully customisable"
-          description="Offers Travel More is holding right now. The price, the flights and what is included are on the card."
+          description="Offers TravelMORE is holding right now. The price, the flights and what is included are on the card."
         />
 
         {specials === null ? (
@@ -119,7 +119,7 @@ export function Packages() {
 
         <p className="mx-auto mt-10 max-w-2xl text-center text-sm text-navy-800/65">
           <strong className="font-semibold text-navy-900">Price match promise:</strong> Share a
-          comparable quote and we&apos;ll match it when booking through Travel More.
+          comparable quote and we&apos;ll match it when booking through TravelMORE.
         </p>
       </div>
     </section>

@@ -34,10 +34,7 @@ export function Hero() {
           transition={{ duration: 1, ease }}
           className="font-display text-[clamp(3.75rem,13vw,9.5rem)] font-semibold leading-[0.92] tracking-tight text-white [text-shadow:0_2px_2px_rgba(12,24,48,0.35),0_10px_28px_rgba(12,24,48,0.45)]"
         >
-          Travel{" "}
-          <span className="italic text-[#3ecfb8] [text-shadow:0_2px_2px_rgba(8,40,48,0.4),0_10px_24px_rgba(8,50,55,0.4)]">
-            More.
-          </span>
+          Travel<span className="italic text-[#3ecfb8] [text-shadow:0_2px_2px_rgba(8,40,48,0.4),0_10px_24px_rgba(8,50,55,0.4)]">MORE</span>
         </motion.h1>
 
         <motion.p

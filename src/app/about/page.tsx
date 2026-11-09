@@ -6,7 +6,7 @@ import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 
 const aboutDescription =
-  "Travel More is a Gauteng travel studio led by FransMari Grant. Read about the company, the founder, and what clients say.";
+  "TravelMORE is a Gauteng travel studio led by FransMari Grant. Read about the company, the founder, and what clients say.";
 
 export const metadata: Metadata = {
   title: "About us",

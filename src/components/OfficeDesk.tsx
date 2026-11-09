@@ -90,7 +90,7 @@ export function OfficeDesk() {
     return (
       <OfficeAuthShell
         title="Welcome back"
-        lead="Sign in to open the desk. Only the Travel More team uses this — it never appears on the public site."
+        lead="Sign in to open the desk. Only the TravelMORE team uses this — it never appears on the public site."
       >
         <form onSubmit={signIn}>
           <label className="block text-sm font-medium text-navy-900">
@@ -131,7 +131,7 @@ export function OfficeDesk() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-[#1a7d76]">
-            Travel More
+            TravelMORE
           </p>
           <h1 className="mt-2 font-display text-4xl font-semibold text-navy-900">Trip requests</h1>
         </div>

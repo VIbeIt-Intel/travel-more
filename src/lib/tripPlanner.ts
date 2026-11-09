@@ -605,7 +605,7 @@ export function summariseForEnquiry(answers: PlannerAnswers, itinerary: Itinerar
   };
 
   return [
-    `Hi Travel More! I planned a trip on your website and would love a quote.`,
+    `Hi TravelMORE! I planned a trip on your website and would love a quote.`,
     ``,
     `Destination: ${itinerary.destination.name}`,
     `Trip type: ${label("tripType")}`,

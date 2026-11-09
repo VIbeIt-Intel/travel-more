@@ -14,7 +14,7 @@ type Testimonial = {
 const testimonials: Testimonial[] = [
   {
     quote:
-      "Travel More goes out of their way and makes the extra effort to make your travel arrangements as easy and comfortable as possible for you. I will use them again and again and can recommend them to anyone. Thank you very much Frans-Mari!!",
+      "TravelMORE goes out of their way and makes the extra effort to make your travel arrangements as easy and comfortable as possible for you. I will use them again and again and can recommend them to anyone. Thank you very much Frans-Mari!!",
     author: "Marié van der Walt",
     role: "Recommended on Facebook · April 2025",
     source: "facebook",

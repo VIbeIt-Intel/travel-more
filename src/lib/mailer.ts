@@ -13,7 +13,7 @@ export async function sendMail(to: string[], subject: string, text: string, html
     auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
   });
   await transport.sendMail({
-    from: process.env.MAIL_FROM || `Travel More <${process.env.SMTP_USER}>`,
+    from: process.env.MAIL_FROM || `TravelMORE <${process.env.SMTP_USER}>`,
     to,
     subject,
     text,
