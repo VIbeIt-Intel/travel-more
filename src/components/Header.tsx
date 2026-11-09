@@ -48,41 +48,24 @@ export function Header({ solid = false }: { solid?: boolean }) {
       <div className="relative z-10 mx-auto flex max-w-[90rem] items-center justify-between gap-4 px-4 py-3 lg:px-6">
         <Link
           href="/"
-          className="group flex shrink-0 items-center gap-3"
+          className="group flex shrink-0 flex-col leading-tight"
           onClick={closeMenu}
           aria-label={`${SITE.name} home`}
         >
-          <video
-            className={`rounded-full object-cover shadow-lg ring-2 transition-all duration-300 ${
-              overHero
-                ? "h-14 w-14 ring-navy-950/15 xl:h-[68px] xl:w-[68px]"
-                : "h-11 w-11 ring-white/70 xl:h-12 xl:w-12"
+          <span
+            className={`font-display text-xl font-semibold transition-colors ${
+              overHero ? "text-navy-950" : "text-white"
             }`}
-            src="/logo-loop.mp4"
-            poster="/logo.webp"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            aria-hidden
-          />
-          <div className="hidden leading-tight xl:block">
-            <span
-              className={`font-display text-lg font-semibold transition-colors ${
-                overHero ? "text-navy-950" : "text-white"
-              }`}
-            >
-              {SITE.name}
-            </span>
-            <span
-              className={`block text-[0.65rem] font-semibold uppercase tracking-[0.18em] transition-colors ${
-                overHero ? "text-navy-900/80" : "text-white/80"
-              }`}
-            >
-              {SITE.subtitle}
-            </span>
-          </div>
+          >
+            {SITE.name}
+          </span>
+          <span
+            className={`hidden text-[0.65rem] font-semibold uppercase tracking-[0.18em] transition-colors sm:block ${
+              overHero ? "text-navy-900/80" : "text-white/80"
+            }`}
+          >
+            {SITE.subtitle}
+          </span>
         </Link>
 
         <nav className="hidden items-center gap-3 lg:flex xl:gap-5" aria-label="Main">

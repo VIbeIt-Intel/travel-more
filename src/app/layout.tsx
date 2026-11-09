@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, DM_Sans } from "next/font/google";
+import { Opening } from "@/components/Opening";
 import { SITE } from "@/lib/constants";
 import "./globals.css";
 
@@ -78,6 +79,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        <Opening />
         {children}
       </body>
     </html>
