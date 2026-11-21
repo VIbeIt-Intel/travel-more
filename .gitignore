@@ -33,6 +33,9 @@ yarn-error.log*
 # traveller requests stored for the back office
 /data
 
+# generated Prisma client
+/src/generated
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

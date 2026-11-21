@@ -10,9 +10,18 @@
     "deploy:github-pages": "npm run build:github-pages && npx gh-pages -d out --dotfiles -m \"Deploy public site\"",
     "deploy:domain": "npm run build:github-pages-domain && npx gh-pages -d out --dotfiles -m \"Deploy for travelmorebl.com\"",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:generate": "node scripts/prisma-provider.mjs && prisma generate",
+    "db:migrate": "node scripts/prisma-provider.mjs && prisma migrate dev",
+    "db:seed": "node --env-file=.env --env-file=.env.local prisma/seed.mjs",
+    "migrate:json": "node --env-file=.env --env-file=.env.local scripts/migrate-json.mjs"
+  },
+  "prisma": {
+    "seed": "node --env-file=.env --env-file=.env.local prisma/seed.mjs"
   },
   "dependencies": {
+    "@prisma/adapter-better-sqlite3": "7.10.1",
+    "@prisma/client": "7.10.1",
     "framer-motion": "^12.23.24",
     "next": "^15.5.6",
     "nodemailer": "^7.0.13",
@@ -28,6 +37,7 @@
     "@types/react-dom": "^19.2.2",
     "eslint": "^9.38.0",
     "eslint-config-next": "^15.5.6",
+    "prisma": "7.10.1",
     "tailwindcss": "^4.1.16",
     "typescript": "^5.9.3"
   }

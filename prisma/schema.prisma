@@ -1,0 +1,197 @@
+// Portable on SQLite and PostgreSQL.
+// Do not add enums, scalar lists, Json, Decimal, or database-specific column types.
+// The provider line is the only database switch. scripts/prisma-provider.mjs sets it
+// from DATABASE_PROVIDER before generate and migrate. The Droplet sets
+// DATABASE_PROVIDER=postgresql and a postgres DATABASE_URL. See docs/DEPLOY_DROPLET.md.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model CompanySettings {
+  id                 String   @id @default("default")
+  businessName       String
+  registrationNumber String   @default("")
+  vatRegistered      Boolean  @default(false)
+  vatNumber          String   @default("")
+  vatRateBps         Int      @default(1500)
+  address            String   @default("")
+  phone              String   @default("")
+  email              String   @default("")
+  website            String   @default("")
+  logoKey            String   @default("")
+  bankName           String   @default("")
+  bankAccountName    String   @default("")
+  bankAccountNumber  String   @default("")
+  bankBranchCode     String   @default("")
+  quoteValidityDays  Int      @default(7)
+  quoteNotes         String   @default("")
+  invoiceNotes       String   @default("")
+  depositPercent     Int      @default(50)
+  balanceDueDays     Int      @default(21)
+  quotePrefix        String   @default("TMQ")
+  bookingPrefix      String   @default("TMB")
+  invoicePrefix      String   @default("TMI")
+  updatedAt          DateTime @updatedAt
+}
+
+model User {
+  id           String          @id @default(cuid())
+  name         String
+  email        String          @unique
+  passwordHash String
+  passwordSalt String
+  role         String
+  active       Boolean         @default(true)
+  lastLoginAt  DateTime?
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  sessions     Session[]
+  resets       PasswordReset[]
+  leads        Lead[]          @relation("LeadOwner")
+  auditLogs    AuditLog[]
+}
+
+model Session {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash  String   @unique
+  expiresAt  DateTime
+  lastSeenAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+  userAgent  String   @default("")
+  ipAddress  String   @default("")
+
+  @@index([userId])
+}
+
+model PasswordReset {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action    String
+  entity    String
+  entityId  String   @default("")
+  ipAddress String   @default("")
+  userAgent String   @default("")
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([entity, entityId])
+}
+
+/// Office copy of a website special. The public homepage still reads public/site-data/specials.json.
+model Special {
+  id          String   @id
+  destination String
+  name        String
+  badge       String   @default("")
+  price       String
+  priceNote   String   @default("")
+  flights     String   @default("")
+  included    String   @default("")
+  image       String   @default("")
+  alt         String   @default("")
+  video       String   @default("")
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Lead {
+  id          String   @id
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  destination String
+  month       String
+  year        String
+  flexible    Boolean  @default(false)
+  adults      Int
+  children    Int      @default(0)
+  nights      String
+  trip        String
+  name        String
+  email       String
+  phone       String   @default("")
+  notes       String   @default("")
+  source      String   @default("website")
+  stage       String   @default("new")
+  lostReason  String   @default("")
+  ownerId     String?
+  owner       User?    @relation("LeadOwner", fields: [ownerId], references: [id], onDelete: SetNull)
+  clientId    String?
+  client      Client?  @relation(fields: [clientId], references: [id], onDelete: SetNull)
+
+  @@index([stage])
+  @@index([email])
+  @@index([createdAt])
+}
+
+model Client {
+  id               String           @id @default(cuid())
+  firstName        String
+  lastName         String
+  email            String           @default("")
+  phone            String           @default("")
+  idOrPassport     String           @default("")
+  dateOfBirth      DateTime?
+  address          String           @default("")
+  notes            String           @default("")
+  marketingConsent Boolean          @default(false)
+  consentAt        DateTime?
+  consentSource    String           @default("")
+  anonymisedAt     DateTime?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  createdById      String           @default("")
+  leads            Lead[]
+  travellers       Traveller[]
+  documents        ClientDocument[]
+
+  @@index([email])
+}
+
+model Traveller {
+  id             String    @id @default(cuid())
+  clientId       String
+  client         Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  firstName      String
+  lastName       String
+  dateOfBirth    DateTime?
+  passportNumber String    @default("")
+  passportExpiry DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([clientId])
+}
+
+model ClientDocument {
+  id        String    @id @default(cuid())
+  clientId  String
+  client    Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  type      String
+  fileKey   String
+  fileName  String    @default("")
+  expiry    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([clientId])
+}
