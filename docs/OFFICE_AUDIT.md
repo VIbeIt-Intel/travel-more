@@ -226,6 +226,8 @@ Already used: `BACK_OFFICE_ENABLED`, `OFFICE_PASSWORD`, `SMTP_HOST`, `SMTP_PORT`
 
 New: `DATABASE_URL`, `OFFICE_OWNER_EMAIL`, `OFFICE_OWNER_NAME`, `STORAGE_DIR`, `CRON_SECRET`, `PAYMENTS_ENABLED`, `PAYMENT_GATEWAY`, `PAYSTACK_SECRET_KEY`, `PAYSTACK_PUBLIC_KEY`, `PAYFAST_MERCHANT_ID`, `PAYFAST_MERCHANT_KEY`, `PAYFAST_PASSPHRASE`, `PAYFAST_SANDBOX`, `PUBLIC_BASE_URL`.
 
-## Waiting
+## Homepage specials are a separate file
 
-No Step 1 work until you reply. Say go (and whether to install Docker for Postgres, or accept the SQLite fallback).
+The public homepage does not read `data/specials.json` or the database. `Packages` fetches `public/site-data/specials.json`. That snapshot changes only when `deploy:domain` copies `data/specials.json` over it during a GitHub Pages build. Saving a special in the office updates `data/specials.json` and, after the JSON import, the `Special` table. It does not change what visitors see until the next Pages build. Leave this as it is. The sync moves to the Droplet with the rest of the site.
+
+Planner figures stay in `src/lib/tripPlanner.ts` while `data/rates.json` is missing. The office estimates screen still saves to `data/rates.json` when someone clicks Save estimates. That file is not imported.
