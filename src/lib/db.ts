@@ -1,3 +1,4 @@
+import fs from "fs";
 import path from "path";
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
 import { PrismaClient } from "../generated/prisma/client";
@@ -7,7 +8,11 @@ const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 function sqliteFileUrl() {
   const raw = process.env.DATABASE_URL || "file:./data/office.db";
   const filePath = raw.startsWith("file:") ? raw.slice("file:".length) : raw;
-  return path.isAbsolute(filePath) ? filePath : path.resolve(process.cwd(), filePath);
+  const source = path.isAbsolute(filePath) ? filePath : path.resolve(process.cwd(), filePath);
+  if (!process.env.VERCEL) return source;
+  const target = path.join("/tmp", "office.db");
+  if (!fs.existsSync(target)) fs.copyFileSync(source, target);
+  return target;
 }
 
 function createClient() {

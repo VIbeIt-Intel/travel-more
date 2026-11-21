@@ -1,0 +1,3 @@
+{
+  "buildCommand": "npm run db:generate && node -e \"require('fs').mkdirSync('data',{recursive:true})\" && npx prisma migrate deploy && node prisma/seed.mjs && npm run build"
+}

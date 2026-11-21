@@ -66,7 +66,9 @@ const nextConfig: NextConfig = {
           "/api/office/forgot": ["./data/**/*"],
           "/api/office/reset": ["./data/**/*"],
           "/office": ["./data/**/*"],
+          "/office/:path*": ["./data/**/*"],
           "/office/reset": ["./data/**/*"],
+          "/api/office/:path*": ["./data/**/*"],
         },
         async headers() {
           return [
