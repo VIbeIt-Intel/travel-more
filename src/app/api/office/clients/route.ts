@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateDesk } from "@/lib/deskCache";
 import { db } from "@/lib/db";
 import { clientIp } from "@/lib/rateLimit";
 import { currentUser } from "@/lib/session";
@@ -46,5 +47,6 @@ export async function POST(request: Request) {
       userAgent: request.headers.get("user-agent") || "",
     },
   });
+  revalidateDesk(["/office", "/office/clients", `/office/clients/${client.id}`]);
   return NextResponse.json({ client });
 }

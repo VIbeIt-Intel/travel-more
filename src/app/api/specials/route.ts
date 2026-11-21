@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { currentUser } from "@/lib/session";
 import { addSpecial, listSpecials, orderSpecials, parseSpecial } from "@/lib/specials";
 
 export const dynamic = "force-dynamic";
 
 async function authorised() {
+  const { currentUser } = await import("@/lib/session");
   return Boolean(await currentUser());
 }
 

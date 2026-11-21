@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateDesk } from "@/lib/deskCache";
 import { db } from "@/lib/db";
 import { currentUser } from "@/lib/session";
 import { savePrivateFile } from "@/lib/storage";
@@ -31,5 +32,6 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
   const document = await db.clientDocument.create({
     data: { clientId: id, type, fileKey: saved.key, fileName: saved.fileName },
   });
+  revalidateDesk([`/office/clients/${id}`]);
   return NextResponse.json({ document });
 }

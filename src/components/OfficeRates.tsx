@@ -31,17 +31,18 @@ function toDraft(rates: RateTable): Draft {
   }, {} as Draft);
 }
 
-export function OfficeRates() {
-  const [draft, setDraft] = useState<Draft | null>(null);
+export function OfficeRates({ rates }: { rates?: RateTable }) {
+  const [draft, setDraft] = useState<Draft | null>(rates ? toDraft(rates) : null);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
+    if (rates) return;
     let active = true;
     fetch("/api/rates")
       .then((response) => response.json())
-      .then((data: { rates: RateTable }) => {
+      .then((data: { rates?: RateTable }) => {
         if (active && data.rates) setDraft(toDraft(data.rates));
       })
       .catch(() => {
@@ -50,7 +51,7 @@ export function OfficeRates() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [rates]);
 
   function setField(id: DestinationId, key: Field, value: string) {
     setMessage("");
@@ -97,7 +98,14 @@ export function OfficeRates() {
   }
 
   if (!draft) {
-    return <p className="mt-10 text-sm text-navy-800/70">{error || "Loading estimates."}</p>;
+    return (
+      <div className="mt-10 space-y-3" aria-busy="true" aria-label="Loading estimates">
+        <div className="h-8 w-52 animate-pulse bg-sand-200" />
+        <div className="h-28 animate-pulse border border-sand-300 bg-sand-100" />
+        <div className="h-28 animate-pulse border border-sand-300 bg-sand-100" />
+        {error ? <p className="text-sm text-red-700">{error}</p> : null}
+      </div>
+    );
   }
 
   return (

@@ -37,9 +37,12 @@ export default async function DashboardPage() {
           </article>
         ))}
       </div>
-      <p className="mt-3 text-sm text-navy-800/60">
+      <p className="mt-3 text-sm leading-relaxed text-navy-800/60">
         Quotes, bookings and invoices are not in this section yet, so sales, commission and profit stay at zero.
-        {leadCount} lead{leadCount === 1 ? "" : "s"} arrived this month. {clientCount} client{clientCount === 1 ? "" : "s"} on file.
+      </p>
+      <p className="mt-1 text-sm leading-relaxed text-navy-800/60">
+        {leadCount} {leadCount === 1 ? "lead" : "leads"} arrived this month. {clientCount}{" "}
+        {clientCount === 1 ? "client" : "clients"} on file.
       </p>
 
       <div className="mt-8 grid gap-4 lg:grid-cols-2">
@@ -52,7 +55,7 @@ export default async function DashboardPage() {
             <ul className="mt-4 space-y-3">
               {latest.map((lead) => (
                 <li key={lead.id} className="border border-sand-300/80 px-3 py-3">
-                  <Link href={`/office/leads/${lead.id}`} className="font-semibold text-navy-900 hover:underline">
+                  <Link href={`/office/leads/${lead.id}`} className="break-words font-semibold text-navy-900 hover:underline">
                     {lead.name} · {lead.destination}
                   </Link>
                   <p className="text-sm text-navy-800/70">

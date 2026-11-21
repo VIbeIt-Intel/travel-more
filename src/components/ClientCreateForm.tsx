@@ -8,6 +8,7 @@ const field = "mt-1 block min-h-11 w-full border border-sand-300 bg-sand-100 px-
 export function ClientCreateForm() {
   const router = useRouter();
   const [error, setError] = useState("");
+  const [saved, setSaved] = useState("");
   const [busy, setBusy] = useState(false);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -15,6 +16,7 @@ export function ClientCreateForm() {
     const form = new FormData(event.currentTarget);
     setBusy(true);
     setError("");
+    setSaved("");
     const response = await fetch("/api/office/clients", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -33,6 +35,7 @@ export function ClientCreateForm() {
       setError(data?.error || "Could not save the client.");
       return;
     }
+    setSaved("Saved");
     router.push(`/office/clients/${data.client.id}`);
     router.refresh();
   }
@@ -65,6 +68,7 @@ export function ClientCreateForm() {
         They agreed to hear about future trips
       </label>
       {error ? <p className="text-sm text-red-700 sm:col-span-2">{error}</p> : null}
+      {saved ? <p className="text-sm font-semibold text-[#1a7d76] sm:col-span-2">{saved}</p> : null}
       <button type="submit" disabled={busy} className="min-h-11 bg-[#1a7d76] px-5 text-sm font-semibold text-white disabled:opacity-60 sm:col-span-2 sm:w-fit">
         {busy ? "Saving" : "Save client"}
       </button>

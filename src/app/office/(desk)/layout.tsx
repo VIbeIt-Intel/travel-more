@@ -3,6 +3,8 @@ import { OfficeLogin } from "@/components/OfficeLogin";
 import { OfficeShell } from "@/components/OfficeShell";
 import { currentUser } from "@/lib/session";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };

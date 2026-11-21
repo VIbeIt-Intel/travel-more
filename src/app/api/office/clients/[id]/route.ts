@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateDesk } from "@/lib/deskCache";
 import { db } from "@/lib/db";
 import { clientIp } from "@/lib/rateLimit";
 import { currentUser } from "@/lib/session";
@@ -51,5 +52,6 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
       userAgent: request.headers.get("user-agent") || "",
     },
   });
+  revalidateDesk(["/office", "/office/clients", `/office/clients/${id}`]);
   return NextResponse.json({ client });
 }

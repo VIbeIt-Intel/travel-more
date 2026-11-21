@@ -82,7 +82,7 @@ export function OfficeShell({
             </button>
           </div>
         </header>
-        <div className="px-4 py-8 md:px-8">{children}</div>
+        <div className="min-w-0 px-4 py-6 sm:py-8 md:px-8">{children}</div>
       </div>
 
       {open ? (
@@ -118,7 +118,7 @@ export function DeskHeading({
     <div className="flex flex-wrap items-end justify-between gap-4">
       <div>
         <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-[#1a7d76]">{eyebrow}</p>
-        <h1 className="mt-2 font-display text-4xl font-semibold text-navy-900">{title}</h1>
+        <h1 className="mt-2 font-display text-3xl font-semibold text-navy-900 sm:text-4xl">{title}</h1>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-navy-800/70">{lede}</p>
       </div>
       {action}

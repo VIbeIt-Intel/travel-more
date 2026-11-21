@@ -1,3 +1,4 @@
+import { readPublishedSpecials } from "@/lib/specials";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { Holidays } from "@/components/Holidays";
@@ -8,7 +9,8 @@ import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 
-export default function Home() {
+export default async function Home() {
+  const specials = await readPublishedSpecials();
   return (
     <>
       <Header />
@@ -17,7 +19,7 @@ export default function Home() {
         <Holidays />
         <Destinations />
         <TripPlanner />
-        <Packages />
+        <Packages specials={specials} />
         <Contact />
       </main>
       <Footer />

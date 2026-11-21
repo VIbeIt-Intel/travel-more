@@ -46,8 +46,8 @@ function toDraft(special: Special): Draft {
   };
 }
 
-export function OfficeSpecials() {
-  const [specials, setSpecials] = useState<Special[]>([]);
+export function OfficeSpecials({ specials: initialSpecials }: { specials?: Special[] }) {
+  const [specials, setSpecials] = useState<Special[] | null>(initialSpecials ?? null);
   const [draft, setDraft] = useState<Draft>(emptyDraft);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -55,6 +55,7 @@ export function OfficeSpecials() {
   const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
+    if (initialSpecials) return;
     let active = true;
     fetch("/api/specials")
       .then((response) => response.json())
@@ -62,12 +63,15 @@ export function OfficeSpecials() {
         if (active) setSpecials(data.specials ?? []);
       })
       .catch(() => {
-        if (active) setError("Could not load the specials.");
+        if (active) {
+          setSpecials([]);
+          setError("Could not load the specials.");
+        }
       });
     return () => {
       active = false;
     };
-  }, []);
+  }, [initialSpecials]);
 
   function setField<K extends keyof Draft>(key: K, value: Draft[K]) {
     setMessage("");
@@ -120,9 +124,10 @@ export function OfficeSpecials() {
       return;
     }
     setSpecials((current) => {
-      const index = current.findIndex((item) => item.id === data.special?.id);
-      if (index < 0) return [...current, data.special as Special];
-      return current.map((item) => (item.id === data.special?.id ? (data.special as Special) : item));
+      const list = current ?? [];
+      const index = list.findIndex((item) => item.id === data.special?.id);
+      if (index < 0) return [...list, data.special as Special];
+      return list.map((item) => (item.id === data.special?.id ? (data.special as Special) : item));
     });
     setDraft(emptyDraft());
     setMessage(draft.id ? "Special updated." : "Special added. It is on the website now.");
@@ -135,11 +140,12 @@ export function OfficeSpecials() {
       setError("Could not remove that special.");
       return;
     }
-    setSpecials((current) => current.filter((item) => item.id !== id));
+    setSpecials((current) => (current ?? []).filter((item) => item.id !== id));
     if (draft.id === id) setDraft(emptyDraft());
   }
 
   async function move(id: string, direction: -1 | 1) {
+    if (!specials) return;
     const index = specials.findIndex((item) => item.id === id);
     const target = index + direction;
     if (index < 0 || target < 0 || target >= specials.length) return;
@@ -162,7 +168,13 @@ export function OfficeSpecials() {
         flights, and what is included. One included item per line.
       </p>
 
-      {specials.length === 0 ? (
+      {specials === null ? (
+        <div className="mt-6 space-y-3" aria-busy="true" aria-label="Loading specials">
+          <div className="h-16 animate-pulse border border-sand-300 bg-sand-100" />
+          <div className="h-16 animate-pulse border border-sand-300 bg-sand-100" />
+          <div className="h-16 animate-pulse border border-sand-300 bg-sand-100" />
+        </div>
+      ) : specials.length === 0 ? (
         <p className="mt-6 text-sm text-navy-800/70">No specials yet. The website shows an empty offer until you add one.</p>
       ) : (
         <ul className="mt-6 space-y-3">

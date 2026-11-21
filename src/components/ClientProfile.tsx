@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 const field = "mt-1 block min-h-11 w-full border border-sand-300 bg-sand-100 px-3 text-sm outline-none focus:border-[#1a7d76]";
 
@@ -20,6 +20,8 @@ type Traveller = {
   firstName: string;
   lastName: string;
   passportNumber: string;
+  dateOfBirth: string;
+  passportExpiry: string;
 };
 
 type DocumentRow = {
@@ -126,7 +128,7 @@ function Overview({
       setError(data?.error || "Could not save.");
       return;
     }
-    setSaved("Saved.");
+    setSaved("Saved");
     router.refresh();
   }
 
@@ -156,10 +158,27 @@ function Overview({
 function Travellers({ clientId, travellers }: { clientId: string; travellers: Traveller[] }) {
   const router = useRouter();
   const [error, setError] = useState("");
+  const [saved, setSaved] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [rows, setRows] = useState(travellers);
+
+  useEffect(() => {
+    setRows(travellers);
+  }, [travellers]);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
+    const dateOfBirth = saToIso(String(form.get("dateOfBirth") ?? ""));
+    const passportExpiry = saToIso(String(form.get("passportExpiry") ?? ""));
+    if (dateOfBirth === null || passportExpiry === null) {
+      setSaved("");
+      setError("Use dates as dd/mm/yyyy.");
+      return;
+    }
+    setBusy(true);
+    setError("");
+    setSaved("");
     const response = await fetch(`/api/office/clients/${clientId}/travellers`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -167,41 +186,76 @@ function Travellers({ clientId, travellers }: { clientId: string; travellers: Tr
         firstName: form.get("firstName"),
         lastName: form.get("lastName"),
         passportNumber: form.get("passportNumber"),
-        dateOfBirth: form.get("dateOfBirth"),
-        passportExpiry: form.get("passportExpiry"),
+        dateOfBirth,
+        passportExpiry,
       }),
     });
-    const data = (await response.json().catch(() => null)) as { error?: string } | null;
-    if (!response.ok) {
+    const data = (await response.json().catch(() => null)) as {
+      error?: string;
+      traveller?: { id: string; firstName: string; lastName: string; passportNumber: string; dateOfBirth: string | null; passportExpiry: string | null };
+    } | null;
+    setBusy(false);
+    if (!response.ok || !data?.traveller) {
       setError(data?.error || "Could not add the traveller.");
       return;
     }
+    const added = data.traveller;
+    setRows((current) => [
+      ...current,
+      {
+        id: added.id,
+        firstName: added.firstName,
+        lastName: added.lastName,
+        passportNumber: added.passportNumber,
+        dateOfBirth: added.dateOfBirth ? isoToSa(added.dateOfBirth.slice(0, 10)) : "",
+        passportExpiry: added.passportExpiry ? isoToSa(added.passportExpiry.slice(0, 10)) : "",
+      },
+    ]);
     event.currentTarget.reset();
+    setSaved("Saved");
     router.refresh();
   }
 
   return (
     <div>
-      {travellers.length === 0 ? <p className="text-sm text-navy-800/70">No other travellers yet.</p> : (
+      {rows.length === 0 ? <p className="text-sm text-navy-800/70">No other travellers yet.</p> : (
         <ul className="space-y-2">
-          {travellers.map((traveller) => (
-            <li key={traveller.id} className="border border-sand-300/80 px-3 py-3 text-sm">
+          {rows.map((traveller) => (
+            <li key={traveller.id} className="border border-sand-300/80 px-3 py-3 text-sm break-words">
               {traveller.firstName} {traveller.lastName}
+              {traveller.dateOfBirth ? ` · born ${traveller.dateOfBirth}` : ""}
               {traveller.passportNumber ? ` · ${traveller.passportNumber}` : ""}
+              {traveller.passportExpiry ? ` · passport expires ${traveller.passportExpiry}` : ""}
             </li>
           ))}
         </ul>
       )}
       <form onSubmit={submit} className="mt-5 grid gap-3 sm:grid-cols-2">
         <h3 className="font-display text-xl sm:col-span-2">Add a traveller</h3>
-        <input name="firstName" required placeholder="First name" className={field} />
-        <input name="lastName" placeholder="Last name" className={field} />
-        <input name="passportNumber" placeholder="Passport number" className={field} />
-        <input name="dateOfBirth" type="date" className={field} />
-        <input name="passportExpiry" type="date" className={field} />
+        <label className="text-sm">
+          First name
+          <input name="firstName" required autoComplete="given-name" className={field} />
+        </label>
+        <label className="text-sm">
+          Last name
+          <input name="lastName" autoComplete="family-name" className={field} />
+        </label>
+        <label className="text-sm sm:col-span-2">
+          Passport number
+          <input name="passportNumber" className={field} />
+        </label>
+        <label className="text-sm">
+          Date of birth
+          <input name="dateOfBirth" inputMode="numeric" placeholder="dd/mm/yyyy" autoComplete="bday" className={field} />
+        </label>
+        <label className="text-sm">
+          Passport expiry
+          <input name="passportExpiry" inputMode="numeric" placeholder="dd/mm/yyyy" className={field} />
+        </label>
         {error ? <p className="text-sm text-red-700 sm:col-span-2">{error}</p> : null}
-        <button type="submit" className="min-h-11 border border-navy-900/15 px-4 text-sm font-semibold sm:w-fit">
-          Add traveller
+        {saved ? <p className="text-sm font-semibold text-[#1a7d76] sm:col-span-2">{saved}</p> : null}
+        <button type="submit" disabled={busy} className="min-h-11 border border-navy-900/15 px-4 text-sm font-semibold disabled:opacity-60 sm:w-fit">
+          {busy ? "Saving" : "Add traveller"}
         </button>
       </form>
     </div>
@@ -211,25 +265,41 @@ function Travellers({ clientId, travellers }: { clientId: string; travellers: Tr
 function Documents({ clientId, documents }: { clientId: string; documents: DocumentRow[] }) {
   const router = useRouter();
   const [error, setError] = useState("");
+  const [saved, setSaved] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [rows, setRows] = useState(documents);
+
+  useEffect(() => {
+    setRows(documents);
+  }, [documents]);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const body = new FormData(event.currentTarget);
+    setBusy(true);
+    setError("");
+    setSaved("");
     const response = await fetch(`/api/office/clients/${clientId}/documents`, { method: "POST", body });
-    const data = (await response.json().catch(() => null)) as { error?: string } | null;
-    if (!response.ok) {
+    const data = (await response.json().catch(() => null)) as {
+      error?: string;
+      document?: DocumentRow;
+    } | null;
+    setBusy(false);
+    if (!response.ok || !data?.document) {
       setError(data?.error || "Could not store that file.");
       return;
     }
+    setRows((current) => [data.document as DocumentRow, ...current]);
     event.currentTarget.reset();
+    setSaved("Saved");
     router.refresh();
   }
 
   return (
     <div>
-      {documents.length === 0 ? <p className="text-sm text-navy-800/70">No documents stored yet.</p> : (
+      {rows.length === 0 ? <p className="text-sm text-navy-800/70">No documents stored yet.</p> : (
         <ul className="space-y-2">
-          {documents.map((document) => (
+          {rows.map((document) => (
             <li key={document.id}>
               <a className="text-sm font-semibold text-[#1a7d76] underline-offset-4 hover:underline" href={`/api/office/documents/${document.id}`}>
                 {document.fileName || document.type}
@@ -247,8 +317,9 @@ function Documents({ clientId, documents }: { clientId: string; documents: Docum
         </select>
         <input name="file" type="file" required className="text-sm" />
         {error ? <p className="text-sm text-red-700 sm:col-span-2">{error}</p> : null}
-        <button type="submit" className="min-h-11 border border-navy-900/15 px-4 text-sm font-semibold sm:w-fit">
-          Upload
+        {saved ? <p className="text-sm font-semibold text-[#1a7d76] sm:col-span-2">{saved}</p> : null}
+        <button type="submit" disabled={busy} className="min-h-11 border border-navy-900/15 px-4 text-sm font-semibold disabled:opacity-60 sm:w-fit">
+          {busy ? "Saving" : "Upload"}
         </button>
       </form>
     </div>
@@ -267,6 +338,25 @@ function Consent({
       <p>Export and deletion stay with the owner tools, which are not in this section yet.</p>
     </div>
   );
+}
+
+function saToIso(value: string) {
+  const text = value.trim();
+  if (!text) return "";
+  const match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(text);
+  if (!match) return null;
+  const day = Number(match[1]);
+  const month = Number(match[2]);
+  const year = Number(match[3]);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  if (date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day) return null;
+  return `${match[3]}-${match[2]}-${match[1]}`;
+}
+
+function isoToSa(iso: string) {
+  const [year, month, day] = iso.split("-");
+  if (!year || !month || !day) return "";
+  return `${day}/${month}/${year}`;
 }
 
 function Later({ text }: { text: string }) {

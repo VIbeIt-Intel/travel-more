@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { ClientProfile } from "@/components/ClientProfile";
 import { DeskHeading } from "@/components/OfficeShell";
 import { db } from "@/lib/db";
-import { formatWhen } from "@/lib/format";
+import { formatDay, formatWhen } from "@/lib/format";
 import { currentUser } from "@/lib/session";
 
 export const metadata: Metadata = { title: "Client" };
@@ -63,6 +63,8 @@ export default async function ClientPage({
           firstName: traveller.firstName,
           lastName: traveller.lastName,
           passportNumber: traveller.passportNumber,
+          dateOfBirth: formatDay(traveller.dateOfBirth),
+          passportExpiry: formatDay(traveller.passportExpiry),
         }))}
         documents={client.documents.map((document) => ({
           id: document.id,

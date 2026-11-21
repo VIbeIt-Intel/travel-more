@@ -10,6 +10,7 @@ export function OfficeLogin() {
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [recovering, setRecovering] = useState(false);
+  const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get("reset") === "done") {
@@ -21,12 +22,14 @@ export function OfficeLogin() {
   async function signIn(event: FormEvent) {
     event.preventDefault();
     setError("");
+    setBusy(true);
     const response = await fetch("/api/office/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
     if (!response.ok) {
+      setBusy(false);
       const data = (await response.json().catch(() => null)) as { error?: string } | null;
       setError(data?.error || "Could not sign in.");
       return;
@@ -66,7 +69,7 @@ export function OfficeLogin() {
         {notice ? <p className="mt-4 rounded-xl bg-[#1a7d76]/10 px-4 py-3 text-sm text-[#15665f]">{notice}</p> : null}
         {error ? <p className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-800">{error}</p> : null}
         <div className="mt-6 space-y-4">
-          <OfficePrimaryButton>Open the desk</OfficePrimaryButton>
+          <OfficePrimaryButton disabled={busy}>{busy ? "Opening the desk…" : "Open the desk"}</OfficePrimaryButton>
           <button
             type="button"
             onClick={() => {

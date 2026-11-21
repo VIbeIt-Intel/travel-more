@@ -59,7 +59,7 @@ export default async function ClientsPage({
         <ul className="mt-4 space-y-3">
           {clients.map((client) => (
             <li key={client.id} className="border border-sand-300 bg-white px-5 py-4">
-              <Link href={`/office/clients/${client.id}`} className="font-display text-2xl text-navy-900 hover:underline">
+              <Link href={`/office/clients/${client.id}`} className="break-words font-display text-2xl text-navy-900 hover:underline">
                 {client.firstName} {client.lastName}
               </Link>
               <p className="text-sm text-navy-800/70">

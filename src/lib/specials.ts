@@ -91,6 +91,36 @@ export async function listSpecials() {
   return readAll();
 }
 
+export async function readPublishedSpecials(): Promise<Special[]> {
+  try {
+    const parsed = JSON.parse(
+      await fs.readFile(path.join(process.cwd(), "public", "site-data", "specials.json"), "utf8"),
+    ) as unknown;
+    if (!Array.isArray(parsed)) return [];
+    return parsed.flatMap((item) => {
+      if (!item || typeof item !== "object") return [];
+      const record = item as Partial<Special>;
+      return [
+        {
+          id: String(record.id ?? ""),
+          destination: String(record.destination ?? ""),
+          name: String(record.name ?? ""),
+          badge: String(record.badge ?? ""),
+          price: String(record.price ?? ""),
+          priceNote: String(record.priceNote ?? ""),
+          flights: String(record.flights ?? ""),
+          included: Array.isArray(record.included) ? record.included.map((entry) => String(entry)) : [],
+          image: String(record.image ?? ""),
+          alt: String(record.alt ?? ""),
+          video: String(record.video ?? ""),
+        },
+      ];
+    });
+  } catch {
+    return [];
+  }
+}
+
 export async function addSpecial(special: Special) {
   const specials = await readAll();
   specials.push(special);

@@ -1,17 +1,21 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useLayoutEffect, useState } from "react";
 
 const SEEN = "tm-opened";
-const HOLD_MS = 4000;
-const FADE_MS = 700;
-
-type Phase = "play" | "leave" | "done";
+const MAX_MS = 3000;
 
 export function Opening() {
-  const [phase, setPhase] = useState<Phase>("play");
+  const pathname = usePathname() || "";
+  const office = pathname === "/office" || pathname.startsWith("/office/");
+  const [play, setPlay] = useState(false);
 
   useLayoutEffect(() => {
+    if (office) {
+      setPlay(false);
+      return;
+    }
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let seen = false;
     try {
@@ -19,43 +23,37 @@ export function Opening() {
     } catch {
       seen = false;
     }
-    if (reduce || seen) setPhase("done");
-  }, []);
+    setPlay(!reduce && !seen);
+  }, [office]);
 
   useEffect(() => {
-    if (phase === "done") return;
+    if (!play) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    const timer = window.setTimeout(dismiss, MAX_MS);
     return () => {
       document.body.style.overflow = previous;
+      window.clearTimeout(timer);
     };
-  }, [phase]);
+  }, [play]);
 
-  useEffect(() => {
-    if (phase !== "play") return;
-    const hold = window.setTimeout(() => setPhase("leave"), HOLD_MS);
-    return () => window.clearTimeout(hold);
-  }, [phase]);
-
-  useEffect(() => {
-    if (phase !== "leave") return;
+  function dismiss() {
     try {
       sessionStorage.setItem(SEEN, "1");
     } catch {
       /* Private browsing can block storage. The opening still closes. */
     }
-    const fade = window.setTimeout(() => setPhase("done"), FADE_MS);
-    return () => window.clearTimeout(fade);
-  }, [phase]);
+    setPlay(false);
+  }
 
-  if (phase === "done") return null;
+  if (office || !play) return null;
 
   return (
-    <div
-      className={`fixed inset-0 z-[80] flex items-center justify-center bg-[#f7f3ed] transition-opacity duration-700 ${
-        phase === "leave" ? "pointer-events-none opacity-0" : "opacity-100"
-      }`}
-      role="presentation"
+    <button
+      type="button"
+      onClick={dismiss}
+      className="fixed inset-0 z-[80] flex items-center justify-center bg-[#f7f3ed]"
+      aria-label="Skip introduction"
     >
       <video
         className="h-[100vmin] w-[100vmin] max-h-[100svh] max-w-[100vw] rounded-full object-cover"
@@ -65,8 +63,11 @@ export function Opening() {
         muted
         playsInline
         preload="auto"
-        aria-label="TravelMORE"
+        aria-hidden
       />
-    </div>
+      <span className="absolute bottom-6 rounded-full border border-navy-900/15 bg-white/90 px-4 py-2 text-sm font-semibold text-navy-900">
+        Skip
+      </span>
+    </button>
   );
 }

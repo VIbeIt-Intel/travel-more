@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
-import { currentUser } from "@/lib/session";
 import { parseRates, readRates, writeRates } from "@/lib/rates";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
-  return NextResponse.json({ rates: await readRates() });
+  return NextResponse.json({ rates: await readRates() }, { headers: { "Cache-Control": "no-store" } });
 }
 
 export async function PUT(request: Request) {
+  const { currentUser } = await import("@/lib/session");
   if (!(await currentUser())) {
     return NextResponse.json({ error: "Sign in required." }, { status: 401 });
   }

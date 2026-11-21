@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
+import { revalidateDesk } from "@/lib/deskCache";
 import { db } from "@/lib/db";
 import { setEnquiryStatus } from "@/lib/enquiries";
 import { clientIp } from "@/lib/rateLimit";
 import { currentUser } from "@/lib/session";
 
-const STAGES = ["new", "contacted", "quoted", "booked", "lost"] as const;
+const STAGES = ["new", "contacted", "quoted", "booked", "lost", "converted"] as const;
 
 export async function PATCH(request: Request, context: { params: Promise<{ id: string }> }) {
   const user = await currentUser();
@@ -43,5 +44,6 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
       userAgent: request.headers.get("user-agent") || "",
     },
   });
+  revalidateDesk(["/office", "/office/leads", `/office/leads/${id}`]);
   return NextResponse.json({ lead });
 }
