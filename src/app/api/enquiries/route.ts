@@ -7,6 +7,7 @@ import {
   parseEnquiry,
   tokenMatches,
 } from "@/lib/enquiries";
+import { saveLeadFromEnquiry } from "@/lib/leads";
 import { clientIp, hit } from "@/lib/rateLimit";
 
 async function authorised() {
@@ -45,5 +46,9 @@ export async function POST(request: Request) {
   }
 
   await addEnquiry(parsed);
+  await saveLeadFromEnquiry(parsed, {
+    ipAddress: clientIp(request),
+    userAgent: request.headers.get("user-agent") || "",
+  });
   return NextResponse.json({ ok: true });
 }
