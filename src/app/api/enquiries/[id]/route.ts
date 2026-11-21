@@ -1,10 +1,9 @@
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { officeCookieName, setEnquiryStatus, tokenMatches, type EnquiryStatus } from "@/lib/enquiries";
+import { setEnquiryStatus, type EnquiryStatus } from "@/lib/enquiries";
+import { currentUser } from "@/lib/session";
 
 export async function PATCH(request: Request, context: { params: Promise<{ id: string }> }) {
-  const jar = await cookies();
-  if (!tokenMatches(jar.get(officeCookieName())?.value)) {
+  if (!(await currentUser())) {
     return NextResponse.json({ error: "Sign in required." }, { status: 401 });
   }
 

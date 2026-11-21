@@ -1,6 +1,5 @@
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { officeCookieName, tokenMatches } from "@/lib/enquiries";
+import { currentUser } from "@/lib/session";
 import { parseRates, readRates, writeRates } from "@/lib/rates";
 
 export async function GET() {
@@ -8,8 +7,7 @@ export async function GET() {
 }
 
 export async function PUT(request: Request) {
-  const jar = await cookies();
-  if (!tokenMatches(jar.get(officeCookieName())?.value)) {
+  if (!(await currentUser())) {
     return NextResponse.json({ error: "Sign in required." }, { status: 401 });
   }
 

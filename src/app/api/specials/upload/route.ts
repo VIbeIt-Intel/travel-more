@@ -1,9 +1,8 @@
 import { randomUUID } from "crypto";
 import { promises as fs } from "fs";
 import path from "path";
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { officeCookieName, tokenMatches } from "@/lib/enquiries";
+import { currentUser } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
@@ -14,8 +13,7 @@ const TYPES: Record<string, string> = {
 };
 
 export async function POST(request: Request) {
-  const jar = await cookies();
-  if (!tokenMatches(jar.get(officeCookieName())?.value)) {
+  if (!(await currentUser())) {
     return NextResponse.json({ error: "Sign in required." }, { status: 401 });
   }
 

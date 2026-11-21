@@ -1,12 +1,9 @@
 import { NextResponse } from "next/server";
-import { officeConfigured, officeCookieName, officeToken, passwordMatches } from "@/lib/enquiries";
+import { db } from "@/lib/db";
 import { clear, clientIp, hit } from "@/lib/rateLimit";
+import { OFFICE_COOKIE, checkPassword, endSession, officeCookieOptions, startSession } from "@/lib/session";
 
 export async function POST(request: Request) {
-  if (!officeConfigured()) {
-    return NextResponse.json({ error: "The back office password is not set yet." }, { status: 503 });
-  }
-
   const key = `login:${clientIp(request)}`;
   const attempt = hit(key, 5, 15 * 60 * 1000);
   if (!attempt.allowed) {
@@ -16,33 +13,42 @@ export async function POST(request: Request) {
     );
   }
 
+  let email = "";
   let password = "";
   try {
-    const body = (await request.json()) as { password?: string };
+    const body = (await request.json()) as { email?: string; password?: string };
+    email = String(body.email ?? "");
     password = String(body.password ?? "");
   } catch {
-    password = "";
+    email = "";
   }
 
-  if (!passwordMatches(password)) {
+  const user = await checkPassword(email, password);
+  if (!user) {
     await new Promise((resolve) => setTimeout(resolve, 600));
-    return NextResponse.json({ error: "That password is not right." }, { status: 401 });
+    return NextResponse.json({ error: "That email or password is not right." }, { status: 401 });
   }
 
   clear(key);
-  const response = NextResponse.json({ ok: true });
-  response.cookies.set(officeCookieName(), officeToken(), {
-    httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-    path: "/",
-    maxAge: 60 * 60 * 24 * 14,
+  const token = await startSession(user.id, request);
+  await db.auditLog.create({
+    data: {
+      userId: user.id,
+      action: "sign-in",
+      entity: "user",
+      entityId: user.id,
+      ipAddress: clientIp(request),
+      userAgent: request.headers.get("user-agent") || "",
+    },
   });
+  const response = NextResponse.json({ ok: true });
+  response.cookies.set(OFFICE_COOKIE, token, officeCookieOptions(60 * 60 * 24 * 14));
   return response;
 }
 
 export async function DELETE() {
+  await endSession();
   const response = NextResponse.json({ ok: true });
-  response.cookies.set(officeCookieName(), "", { httpOnly: true, path: "/", maxAge: 0 });
+  response.cookies.set(OFFICE_COOKIE, "", officeCookieOptions(0));
   return response;
 }

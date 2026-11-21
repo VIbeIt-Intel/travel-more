@@ -1,6 +1,5 @@
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { officeCookieName, tokenMatches } from "@/lib/enquiries";
+import { currentUser } from "@/lib/session";
 import { deleteSpecial, listSpecials, parseSpecial, removeUploadedImage, updateSpecial } from "@/lib/specials";
 
 export const dynamic = "force-dynamic";
@@ -8,8 +7,7 @@ export const dynamic = "force-dynamic";
 type Context = { params: Promise<{ id: string }> };
 
 async function authorised() {
-  const jar = await cookies();
-  return tokenMatches(jar.get(officeCookieName())?.value);
+  return Boolean(await currentUser());
 }
 
 export async function PATCH(request: Request, context: Context) {

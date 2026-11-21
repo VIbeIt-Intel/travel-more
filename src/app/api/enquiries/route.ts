@@ -1,18 +1,11 @@
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import {
-  addEnquiry,
-  listEnquiries,
-  officeCookieName,
-  parseEnquiry,
-  tokenMatches,
-} from "@/lib/enquiries";
+import { addEnquiry, listEnquiries, parseEnquiry } from "@/lib/enquiries";
 import { saveLeadFromEnquiry } from "@/lib/leads";
 import { clientIp, hit } from "@/lib/rateLimit";
+import { currentUser } from "@/lib/session";
 
 async function authorised() {
-  const jar = await cookies();
-  return tokenMatches(jar.get(officeCookieName())?.value);
+  return Boolean(await currentUser());
 }
 
 export async function GET() {

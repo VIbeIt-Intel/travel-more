@@ -54,6 +54,20 @@ const nextConfig: NextConfig = {
   ...(githubPages
     ? {}
     : {
+        serverExternalPackages: ["better-sqlite3"],
+        outputFileTracingIncludes: {
+          "/api/specials": ["./data/**/*"],
+          "/api/specials/[id]": ["./data/**/*"],
+          "/api/specials/upload": ["./data/**/*", "./public/specials/**/*"],
+          "/api/enquiries": ["./data/**/*"],
+          "/api/enquiries/[id]": ["./data/**/*"],
+          "/api/rates": ["./data/**/*"],
+          "/api/office/login": ["./data/**/*"],
+          "/api/office/forgot": ["./data/**/*"],
+          "/api/office/reset": ["./data/**/*"],
+          "/office": ["./data/**/*"],
+          "/office/reset": ["./data/**/*"],
+        },
         async headers() {
           return [
             { source: "/:path*", headers: securityHeaders },

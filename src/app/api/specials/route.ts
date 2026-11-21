@@ -1,13 +1,11 @@
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { officeCookieName, tokenMatches } from "@/lib/enquiries";
+import { currentUser } from "@/lib/session";
 import { addSpecial, listSpecials, orderSpecials, parseSpecial } from "@/lib/specials";
 
 export const dynamic = "force-dynamic";
 
 async function authorised() {
-  const jar = await cookies();
-  return tokenMatches(jar.get(officeCookieName())?.value);
+  return Boolean(await currentUser());
 }
 
 export async function GET() {
